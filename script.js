@@ -1,16 +1,34 @@
 
-// Planer Class
-class Planet{
-    constructor() {
-        this.x = 200;
-        this.y = 200;
+// Planet Class
+class Planet {
+    constructor(game) {
+        this.game = game;
+        this.x = this.game.width * 0.5;
+        this.y = this.game.height * 0.5;
         this.radius = 80;
+        this.image = document.querySelector('#planet');
     }
 
     draw(context){
+        context.drawImage(this.image, this.x - 100, this.y - 100)
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         context.stroke();
+    }
+}
+
+// Game Class. Main Game Logic
+class Game {
+    constructor(canvas){
+        this.canvas = canvas;
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;
+        this.planet = new Planet(this);
+    }
+
+    // Will be called for each animation frame
+    render(context){
+        this.planet.draw(context);
     }
 }
 
@@ -28,7 +46,7 @@ window.addEventListener('load', () => {
     context.strokeStyle = 'white';
     context.lineWidth = 2;
 
-    // Instantiate Planet Class
-    const planet = new Planet();
-    planet.draw(context)
+    // Instantiate Game Class
+    const game = new Game(canvas);
+    game.render(context);
 });
