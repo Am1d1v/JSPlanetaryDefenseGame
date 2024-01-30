@@ -11,9 +11,11 @@ class Planet {
 
     draw(context){
         context.drawImage(this.image, this.x - 100, this.y - 100)
-        context.beginPath();
-        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        context.stroke();
+        if(this.game.debug){
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            context.stroke();
+        }
     }
 }
 
@@ -35,9 +37,11 @@ class Player{
         context.translate(this.x, this.y)
         context.rotate(this.angle);
         context.drawImage(this.image, -this.radius, -this.radius)
-        context.beginPath();
-        context.arc(0, 0, this.radius, 0, Math.PI * 2);
-        context.stroke();
+        if(this.game.debug){
+            context.beginPath();
+            context.arc(0, 0, this.radius, 0, Math.PI * 2);
+            context.stroke();
+        }
         context.restore();
     }
 
@@ -60,6 +64,7 @@ class Game {
         this.height = this.canvas.height;
         this.planet = new Planet(this);
         this.player = new Player(this);
+        this.debug = true;
 
         // Initial mouse coordinates values
         this.mouse = {
@@ -67,11 +72,17 @@ class Game {
             y:0
         }
 
+        // Event Listeners
         // Change mouse coordinates
         window.addEventListener('mousemove', (e) => {
             this.mouse.x = e.offsetX;
             this.mouse.y = e.offsetY;
         });
+        window.addEventListener('keyup', (e) => {
+            if(e.key === 'd'){
+                this.debug = !this.debug;
+            }
+        })
     }
 
     // Will be called for each animation frame
@@ -98,7 +109,6 @@ class Game {
         return [aimX, aimY, dx, dy]
     }
 }
-
 
 // Load Canvas
 window.addEventListener('load', () => {
