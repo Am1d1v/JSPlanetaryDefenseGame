@@ -25,6 +25,7 @@ class Player{
         this.y = this.game.height * 0.5;
         this.radius = 40;
         this.image = document.querySelector('#player');
+        this.aim;
     }
 
     // Draw Player and Set Player's initial coordinated
@@ -37,8 +38,9 @@ class Player{
 
     // Update Player's position
     update(){
-        this.x = this.game.mouse.x;
-        this.y = this.game.mouse.y;
+        this.aim = this.game.calcAim(this.game.mouse, this.game.planet)
+        this.x = this.game.planet.x + this.game.planet.radius * this.aim[0];
+        this.y = this.game.planet.y + this.game.planet.radius * this.aim[1];
     }
 }
 
