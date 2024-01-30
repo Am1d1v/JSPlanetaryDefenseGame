@@ -24,6 +24,18 @@ class Game {
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.planet = new Planet(this);
+
+        // Initial mouse coordinates values
+        this.mouse = {
+            x: 0,
+            y:0
+        }
+
+        // Change mouse coordinates
+        window.addEventListener('mousemove', (e) => {
+            this.mouse.x = e.x;
+            this.mouse.y = e.y;
+        });
     }
 
     // Will be called for each animation frame
@@ -32,6 +44,7 @@ class Game {
     }
 }
 
+// Load Canvas
 window.addEventListener('load', () => {
 
     // Canvas and Canvas Context
