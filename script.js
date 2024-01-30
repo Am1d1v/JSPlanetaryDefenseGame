@@ -17,6 +17,31 @@ class Planet {
     }
 }
 
+// Player Class
+class Player{
+    constructor(game){
+        this.game = game;
+        this.x = this.game.width * 0.5;
+        this.y = this.game.height * 0.5;
+        this.radius = 40;
+        this.image = document.querySelector('#player');
+    }
+
+    // Draw Player and Set Player's initial coordinated
+    draw(context){
+        context.drawImage(this.image, this.x - this.radius, this.y - this.radius)
+        context.beginPath();
+        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        context.stroke();
+    }
+
+    // Update Player's position
+    update(){
+        this.x = this.game.mouse.x;
+        this.y = this.game.mouse.y;
+    }
+}
+
 // Game Class. Main Game Logic
 class Game {
     constructor(canvas){
@@ -24,6 +49,7 @@ class Game {
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         this.planet = new Planet(this);
+        this.player = new Player(this);
 
         // Initial mouse coordinates values
         this.mouse = {
@@ -41,6 +67,8 @@ class Game {
     // Will be called for each animation frame
     render(context){
         this.planet.draw(context);
+        this.player.draw(context);
+        this.player.update()
         context.beginPath();
         context.moveTo(this.planet.x, this.planet.y);
         context.lineTo(this.mouse.x, this.mouse.y);
