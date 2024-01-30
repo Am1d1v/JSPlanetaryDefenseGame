@@ -74,7 +74,24 @@ class Game {
         context.lineTo(this.mouse.x, this.mouse.y);
         context.stroke();
     }
+
+    // Set Player's cooidinates depending on where the currently mouse is 
+    calcAim(a, b){
+        // Horizontal Difference
+        const dx = a.x - b.x;
+        // Vertical Difference
+        const dy = a.y - b.y;
+
+        const distance = Math.hypot(dx, dy);
+
+        // Player's Horizontal and Vertical Directions
+        const aimX = dx / distance;
+        const aimY = dy / distance;
+
+        return [aimX, aimY, dx, dy]
+    }
 }
+
 
 // Load Canvas
 window.addEventListener('load', () => {
