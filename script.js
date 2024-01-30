@@ -33,14 +33,18 @@ class Game {
 
         // Change mouse coordinates
         window.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.x;
-            this.mouse.y = e.y;
+            this.mouse.x = e.offsetX;
+            this.mouse.y = e.offsetY;
         });
     }
 
     // Will be called for each animation frame
     render(context){
         this.planet.draw(context);
+        context.beginPath();
+        context.moveTo(this.planet.x, this.planet.y);
+        context.lineTo(this.mouse.x, this.mouse.y);
+        context.stroke();
     }
 }
 
@@ -62,4 +66,14 @@ window.addEventListener('load', () => {
     // Instantiate Game Class
     const game = new Game(canvas);
     game.render(context);
+
+    // Animation
+    function animate(){
+        // Clear Canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        game.render(context);
+        window.requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate)
+
 });
