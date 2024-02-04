@@ -54,6 +54,15 @@ class Player{
         // Player's Rotation
         this.angle = Math.atan2(this.aim[3], this.aim[2]);
     }
+
+    // Player's Shoot Method
+    shoot(){
+        const projectile = this.game.getProjectile();
+        if(projectile){
+            projectile.start(this.x, this.y);
+        }
+        console.log(projectile)
+    }
 }
 
 // Object Pool. Reusable game objects
@@ -68,8 +77,10 @@ class Projectile {
         this.free = true;
     }
     // Pull object from the object pull
-    start(){
+    start(x, y){
         this.free = false;
+        this.x = x;
+        this.y =y;
     }
     // Object becomes unactive. Make object ready to be taken from pool again
     reset(){
@@ -79,10 +90,13 @@ class Projectile {
     // Draw object(Show Object)
     draw(context){
         if(!this.free){
+            context.save();
             context.beginPath();
             // Initial coordinates of object
             context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-
+            context.fillStyle = 'gold';
+            context.fill();
+            context.restore();
         }
     }
 
@@ -115,11 +129,13 @@ class Game {
         // Call projectile pool when the game is ready
         this.createProjectilePool();
 
+
         // Initial mouse coordinates values
         this.mouse = {
             x: 0,
             y:0
         }
+        
 
         // Event Listeners
         // Change mouse coordinates
@@ -127,12 +143,21 @@ class Game {
             this.mouse.x = e.offsetX;
             this.mouse.y = e.offsetY;
         });
+
         // Debug mode
         window.addEventListener('keyup', (e) => {
             if(e.key === 'd'){
                 this.debug = !this.debug;
             }
         })
+
+        // Shoot 
+        window.addEventListener('mousedown', (e) => {
+            this.mouse.x = e.offsetX;
+            this.mouse.y = e.offsetY;
+            this.player.shoot();
+        });
+
     }
 
     // Will be called for each animation frame
@@ -140,7 +165,12 @@ class Game {
         this.planet.draw(context);
         this.player.draw(context);
         this.player.update()
-        context.beginPath();
+
+        // Draw every projectile
+        this.projectilePool.forEach((projectile) => {
+            projectile.draw(context);
+            projectile.update();
+        })
     }
 
     // Set Player's cooidinates depending on where the currently mouse is 
@@ -160,9 +190,19 @@ class Game {
     }
     createProjectilePool(){
         for(let i = 0; i < this.numberOfProjectiles; i++){
-            this.projectilePool.push(new Projectile(this.game));
+            this.projectilePool.push(new Projectile(this));
         }
     };
+
+    getProjectile(){
+        for(let i = 0; i < this.projectilePool; i++){
+            // Check is pool object free
+           if(this.projectilePool[i].free){
+            return this.projectilePool[i];
+           }
+        }
+    }
+
 }
 
 // Load Canvas
