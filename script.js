@@ -57,11 +57,13 @@ class Player{
 }
 
 // Object Pool. Reusable game objects
-class Objectile {
+class Projectile {
     constructor(game){
         this.game = game;
         this.x;
         this.y;
+        this.speedX = 1;
+        this.speedY = 1;
         this.radius = 20;
         this.free = true;
     }
@@ -72,6 +74,25 @@ class Objectile {
     // Object becomes unactive. Make object ready to be taken from pool again
     reset(){
         this.free = true;
+    }
+
+    // Draw object(Show Object)
+    draw(context){
+        if(!this.free){
+            context.beginPath();
+            // Initial coordinates of object
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+
+        }
+    }
+
+    // Move the projectile
+    update(){
+        if(!this.free){
+            // Object Speed. Initially it has 1px per frame
+            this.x += this.speedX;
+            this.y += this.speedY;
+        }
     }
 }
 
@@ -84,6 +105,15 @@ class Game {
         this.planet = new Planet(this);
         this.player = new Player(this);
         this.debug = true;
+
+        // Projectile Pool
+        this.projectilePool = [];
+
+        // How many object we use in the pool
+        this.numberOfProjectiles = 5;
+
+        // Call projectile pool when the game is ready
+        this.createProjectilePool();
 
         // Initial mouse coordinates values
         this.mouse = {
@@ -128,6 +158,11 @@ class Game {
 
         return [aimX, aimY, dx, dy]
     }
+    createProjectilePool(){
+        for(let i = 0; i < this.numberOfProjectiles; i++){
+            this.projectilePool.push(new Projectile(this.game));
+        }
+    };
 }
 
 // Load Canvas
