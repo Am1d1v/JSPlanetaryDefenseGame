@@ -56,6 +56,25 @@ class Player{
     }
 }
 
+// Object Pool. Reusable game objects
+class Objectile {
+    constructor(game){
+        this.game = game;
+        this.x;
+        this.y;
+        this.radius = 20;
+        this.free = true;
+    }
+    // Pull object from the object pull
+    start(){
+        this.free = false;
+    }
+    // Object becomes unactive. Make object ready to be taken from pool again
+    reset(){
+        this.free = true;
+    }
+}
+
 // Game Class. Main Game Logic
 class Game {
     constructor(canvas){
@@ -78,6 +97,7 @@ class Game {
             this.mouse.x = e.offsetX;
             this.mouse.y = e.offsetY;
         });
+        // Debug mode
         window.addEventListener('keyup', (e) => {
             if(e.key === 'd'){
                 this.debug = !this.debug;
