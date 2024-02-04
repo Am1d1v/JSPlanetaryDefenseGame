@@ -195,7 +195,7 @@ class Game {
     };
 
     getProjectile(){
-        for(let i = 0; i < this.projectilePool; i++){
+        for(let i = 0; i < this.projectilePool.length; i++){
             // Check is pool object free
            if(this.projectilePool[i].free){
             return this.projectilePool[i];
