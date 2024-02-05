@@ -121,8 +121,8 @@ class Projectile {
 class Enemy{
     constructor(game){
         this.game = game;
-        this.x = 100;
-        this.y = 100;
+        this.x = 0;
+        this.y = 0;
         this.radius = 30;
         this.width = this.radius * 2;
         this.height = this.radius * 2;
@@ -134,6 +134,17 @@ class Enemy{
     // Enemy is ready to be spawned(used)
     start(){
         this.free = false;
+
+        // Random coordinates for enemy spawn
+        this.x = Math.random() * this.game.width;
+        this.y = Math.random() * this.game.height;
+
+        const aim = this.game.calcAim(this, this.game.planet)
+        
+        // Enemies' speed and vector of movement
+        this.speedX = aim[0];
+        this.speedY = aim[1];
+
     }
 
     // Reset Enemy. Reseted enemies can be used again
@@ -186,8 +197,13 @@ class Game {
 
         // Spawn enemies
         this.createEnemyPool();
-        console.log(this.enemyPool);
 
+        this.enemyPool[0].start();
+        this.enemyPool[1].start();
+        this.enemyPool[2].start();
+        this.enemyPool[3].start();
+        this.enemyPool[4].start();
+        this.enemyPool[5].start();
         
         // Initial mouse coordinates values
         this.mouse = {
@@ -229,6 +245,12 @@ class Game {
         this.projectilePool.forEach((projectile) => {
             projectile.draw(context);
             projectile.update();
+        })
+
+        // Draw enemy
+        this.enemyPool.forEach((enemy) => {
+            enemy.draw(context);
+            enemy.update();
         })
     }
 
