@@ -59,7 +59,7 @@ class Player{
     shoot(){
         const projectile = this.game.getProjectile();
         if(projectile){
-            projectile.start(this.x, this.y);
+            projectile.start(this.x, this.y, this.aim[0], this.aim[1]);
         }
         console.log(projectile)
     }
@@ -73,14 +73,17 @@ class Projectile {
         this.y;
         this.speedX = 1;
         this.speedY = 1;
+        
         this.radius = 20;
         this.free = true;
     }
     // Pull object from the object pull
-    start(x, y){
+    start(x, y, speedX, speedY){
         this.free = false;
         this.x = x;
         this.y =y;
+        this.speedX = speedX;
+        this.speedY = speedY;
     }
     // Object becomes unactive. Make object ready to be taken from pool again
     reset(){
