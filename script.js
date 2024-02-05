@@ -168,8 +168,12 @@ class Enemy{
             this.y += this.speedY;
 
             // Check collision between enemy and planet
+            // When enemy hits planet or player it's resets
             if(this.game.checkCollision(this, this.game.planet)){
-                console.log('Collision');
+                this.reset();
+            }
+            if(this.game.checkCollision(this, this.game.player)){
+                this.reset();
             }
         }
     }
