@@ -178,7 +178,17 @@ class Game {
         // Call projectile pool when the game is ready
         this.createProjectilePool();
 
+        // Array of enemies
+        this.enemyPool = [];
 
+        // Number of enemies
+        this.numberOfEnemies = 10;
+
+        // Spawn enemies
+        this.createEnemyPool();
+        console.log(this.enemyPool);
+
+        
         // Initial mouse coordinates values
         this.mouse = {
             x: 0,
@@ -254,6 +264,22 @@ class Game {
            }
         }
     }
+
+     // Create an array of enemies.
+     createEnemyPool(){
+        for (let i = 0; i < this.numberOfEnemies; i++) {
+            this.enemyPool.push(new Enemy(this))
+        }
+     }
+
+     // If enemy is free, we can spawn it again
+     getEnemy(){
+        for(let i = 0; i < this.enemyPool.lengthl; i++){
+            if(this.enemyPool[i].free){
+                return this.enemyPool[i];
+            }
+        }
+     }
 
 }
 
