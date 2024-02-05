@@ -73,17 +73,17 @@ class Projectile {
         this.y;
         this.speedX = 1;
         this.speedY = 1;
-        
+        this.speedModifier = 3;
         this.radius = 20;
         this.free = true;
     }
     // Pull object from the object pull
     start(x, y, speedX, speedY){
         this.free = false;
-        this.x = x;
-        this.y =y;
-        this.speedX = speedX;
-        this.speedY = speedY;
+        this.x = x ;
+        this.y = y;
+        this.speedX = speedX * this.speedModifier;
+        this.speedY = speedY * this.speedModifier;
     }
     // Object becomes unactive. Make object ready to be taken from pool again
     reset(){
@@ -131,7 +131,7 @@ class Game {
         this.projectilePool = [];
 
         // How many object we use in the pool
-        this.numberOfProjectiles = 5;
+        this.numberOfProjectiles = 30;
 
         // Call projectile pool when the game is ready
         this.createProjectilePool();
