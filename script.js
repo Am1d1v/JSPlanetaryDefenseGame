@@ -188,12 +188,15 @@ class Game {
 
         return [aimX, aimY, dx, dy]
     }
+
+    // Create new Projectile
     createProjectilePool(){
         for(let i = 0; i < this.numberOfProjectiles; i++){
             this.projectilePool.push(new Projectile(this));
         }
     };
 
+    // If projectile is ready to be used, we can call projectile again
     getProjectile(){
         for(let i = 0; i < this.projectilePool.length; i++){
             // Check is pool object free
