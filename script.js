@@ -166,6 +166,11 @@ class Enemy{
         if(!this.free){
             this.x += this.speedX;
             this.y += this.speedY;
+
+            // Check collision between enemy and planet
+            if(this.game.checkCollision(this, this.game.planet)){
+                console.log('Collision');
+            }
         }
     }
 }
@@ -268,6 +273,16 @@ class Game {
         const aimY = dy / distance * -1;
 
         return [aimX, aimY, dx, dy]
+    }
+
+    // Check collision
+    checkCollision(firstObject, secondObject){
+        const dx = firstObject.x - secondObject.x;
+        const dy = firstObject.y - secondObject.y;
+        const distance = Math.hypot(dx, dy);
+        const sumOfRedii = firstObject.radius + secondObject.radius;
+
+        return distance < sumOfRedii;
     }
 
     // Create new Projectile
