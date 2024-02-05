@@ -73,8 +73,8 @@ class Projectile {
         this.y;
         this.speedX = 1;
         this.speedY = 1;
-        this.speedModifier = 3;
-        this.radius = 20;
+        this.speedModifier = 10;
+        this.radius = 9;
         this.free = true;
     }
     // Pull object from the object pull
@@ -97,7 +97,7 @@ class Projectile {
             context.beginPath();
             // Initial coordinates of object
             context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            context.fillStyle = 'gold';
+            context.fillStyle = 'white';
             context.fill();
             context.restore();
         }
@@ -113,6 +113,48 @@ class Projectile {
         // Reset if outside the visible game area
         if(this.x < 0 || this.x > this.game.width || this.y < 0 || this.y > this.game.width){
             this.reset();
+        }
+    }
+}
+
+// Enemy Class
+class Enemy{
+    constructor(game){
+        this.game = game;
+        this.x = 100;
+        this.y = 100;
+        this.radius = 30;
+        this.width = this.radius * 2;
+        this.height = this.radius * 2;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.free = true;
+    }
+
+    // Enemy is ready to be spawned(used)
+    start(){
+        this.free = false;
+    }
+
+    // Reset Enemy. Reseted enemies can be used again
+    reset(){
+        this.free = true;
+    }
+
+    // Show enemy
+    draw(context){
+        if(!this.free){
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            context.stroke();
+        }
+    }
+
+    // Update enemies' data(coordinates)
+    update(){
+        if(!this.free){
+            this.x += this.speedX;
+            this.y += this.speedY;
         }
     }
 }
