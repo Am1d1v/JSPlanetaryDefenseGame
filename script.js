@@ -208,11 +208,8 @@ class Game {
         this.createEnemyPool();
 
         this.enemyPool[0].start();
-        this.enemyPool[1].start();
-        this.enemyPool[2].start();
-        this.enemyPool[3].start();
-        this.enemyPool[4].start();
-        this.enemyPool[5].start();
+        this.enemyTimer = 0;
+        this.enemyInterval = 1000;
         
         // Initial mouse coordinates values
         this.mouse = {
@@ -262,6 +259,18 @@ class Game {
             enemy.draw(context);
             enemy.update();
         })
+
+        // Periodically enemy spawn
+        if(this.enemyTimer < this.enemyInterval){
+            this.enemyTimer += deltaTime;
+        } else {
+            this.enemyTimer = 0;
+
+            const enemy = this.getEnemy();
+            if(enemy){
+                enemy.start();
+            }
+        }
     }
 
     // Set Player's cooidinates depending on where the currently mouse is 
@@ -316,7 +325,7 @@ class Game {
 
      // If enemy is free, we can spawn it again
      getEnemy(){
-        for(let i = 0; i < this.enemyPool.lengthl; i++){
+        for(let i = 0; i < this.enemyPool.length; i++){
             if(this.enemyPool[i].free){
                 return this.enemyPool[i];
             }
