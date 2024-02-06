@@ -245,10 +245,11 @@ class Game {
     }
 
     // Will be called for each animation frame
-    render(context){
+    render(context, deltaTime){
         this.planet.draw(context);
         this.player.draw(context);
-        this.player.update()
+        this.player.update();
+        
 
         // Draw every projectile
         this.projectilePool.forEach((projectile) => {
@@ -343,12 +344,19 @@ window.addEventListener('load', () => {
     const game = new Game(canvas);
     game.render(context);
 
+
+    let lastTime = 0;
     // Animation
-    function animate(){
+    function animate(timestapm){
+        const deltaTime = timestapm - lastTime;
+        lastTime = timestapm;
+
         // Clear Canvas
         context.clearRect(0, 0, canvas.width, canvas.height);
-        game.render(context);
-        window.requestAnimationFrame(animate);
+
+        game.render(context, deltaTime);
+        requestAnimationFrame(animate);
+        
     }
     requestAnimationFrame(animate)
 
