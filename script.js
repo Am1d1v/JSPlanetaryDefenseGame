@@ -159,6 +159,7 @@ class Enemy{
     // Show enemy
     draw(context){
         if(!this.free){
+            context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height)
             context.beginPath();
             context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
             context.stroke();
@@ -194,6 +195,14 @@ class Enemy{
     }
 }
 
+// Asteroid Enemy Class
+class Asteroid extends Enemy{
+    constructor(game){
+        super(game);
+        this.image = document.querySelector('#asteroid');
+    }
+}
+
 // Game Class. Main Game Logic
 class Game {
     constructor(canvas){
@@ -217,7 +226,7 @@ class Game {
         this.enemyPool = [];
 
         // Number of enemies
-        this.numberOfEnemies = 10;
+        this.numberOfEnemies = 2;
 
         // Spawn enemies
         this.createEnemyPool();
@@ -334,7 +343,7 @@ class Game {
      // Create an array of enemies.
      createEnemyPool(){
         for (let i = 0; i < this.numberOfEnemies; i++) {
-            this.enemyPool.push(new Enemy(this))
+            this.enemyPool.push(new Asteroid(this))
         }
      }
 
