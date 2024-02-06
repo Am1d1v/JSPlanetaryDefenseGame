@@ -159,10 +159,14 @@ class Enemy{
     // Show enemy
     draw(context){
         if(!this.free){
-            context.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.height)
-            context.beginPath();
-            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            context.stroke();
+            context.drawImage(this.image, 0, 0, this.width + 20, this.height + 20, this.x - this.radius, this.y - this.radius, this.width, this.height);
+
+            // Show/Hide Debug Mode 
+            if(this.game.debug){
+                context.beginPath();
+                context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                context.stroke();
+            }
         }
     }
 
@@ -226,7 +230,7 @@ class Game {
         this.enemyPool = [];
 
         // Number of enemies
-        this.numberOfEnemies = 2;
+        this.numberOfEnemies = 18;
 
         // Spawn enemies
         this.createEnemyPool();
