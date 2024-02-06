@@ -137,9 +137,9 @@ class Enemy{
 
         if(Math.random() < 0.5) {
             this.x = Math.random() * this.game.width;
-            this.y = 0;
+            this.y = Math.random() < 0.5 ? 0 : this.game.height;
         } else {
-            this.x = 0;
+            this.x = Math.random() < 0.5 ? 0 : this.game.width;
             this.y = Math.random() * this.game.height;
         }
 
@@ -179,6 +179,17 @@ class Enemy{
             if(this.game.checkCollision(this, this.game.player)){
                 this.reset();
             }
+
+            // Check collision
+            this.game.projectilePool.forEach((projectile) => {
+                if(!projectile.free && this.game.checkCollision(this, projectile)){
+                    // Reset Player's projectile
+                    projectile.reset();
+
+                    // Reset Enemy 
+                    this.reset();
+                }
+            })
         }
     }
 }
