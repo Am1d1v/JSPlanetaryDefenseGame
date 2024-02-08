@@ -135,6 +135,7 @@ class Enemy{
     start(){
         this.free = false;
 
+
         if(Math.random() < 0.5) {
             this.x = Math.random() * this.game.width;
             this.y = Math.random() < 0.5 ? 0 : this.game.height;
@@ -156,10 +157,15 @@ class Enemy{
         this.free = true;
     }
 
+    // Enemy lives. How many hits remain to destroy enemy
+    hit(damage){
+        this.lives -= damage;
+    }
+
     // Show enemy
     draw(context){
         if(!this.free){
-            context.drawImage(this.image, 0, 0, this.width + 20, this.height + 20, this.x - this.radius, this.y - this.radius, this.width, this.height);
+            context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width + 20, this.height + 20, this.x - this.radius, this.y - this.radius, this.width, this.height);
 
             // Show/Hide Debug Mode 
             if(this.game.debug){
@@ -190,11 +196,17 @@ class Enemy{
                 if(!projectile.free && this.game.checkCollision(this, projectile)){
                     // Reset Player's projectile
                     projectile.reset();
+                    this.hit(1);
 
-                    // Reset Enemy 
-                    this.reset();
                 }
-            })
+            });
+
+            if(this.lives < 1){
+                this.frameX++;
+
+                // Reset Enemy 
+                this.reset();
+            }
         }
     }
 }
@@ -204,6 +216,9 @@ class Asteroid extends Enemy{
     constructor(game){
         super(game);
         this.image = document.querySelector('#asteroid');
+        this.frameY = 0;
+        this.frameX = 0;
+        this.lives = 5;
     }
 }
 
